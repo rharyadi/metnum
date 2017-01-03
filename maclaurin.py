@@ -58,10 +58,7 @@ if __name__=='__main__':
         print('%s(%f) = %f' % (fungsi_math.__name__, x, b))
         print('Selisih = %f\n' % abs(a-b))
 
-    print("""
-    ============= Testing ==============
-     Dibandingkan fungsi dari module math
-          """)
+    print('============= Testing ==============')
     print('1. Fungsi Sinus')
     ngetest(sin_ml, sin)
     print('2. Fungsi Cosinus')
