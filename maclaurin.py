@@ -2,8 +2,6 @@
 
 # Deret Maclaurin berbagai fungsi
 
-from math import sin,cos,log
-
 class maclaurin(object):
 
     def __init__(self, eps=0.0000000001):
@@ -40,17 +38,31 @@ def cos_ml(x):
     return jumlah
 
 if __name__=='__main__':
-    print('========= Test ========')
+
+    from math import sin, cos
+    from sys import argv, exit
+    
     x = 0.5
-    print('1. Sinus\n')
-    a = sin_ml(x)
-    b = sin(x)
-    print('Sin(%f) ngitung sendiri: %f\n' % (x,a))
-    print('Sin(%f) dari math module: %f\n' % (x,a))
-    print('Selisih: %f\n' % abs(a-b))
-    print('2. Cosinus\n')
-    a = cos_ml(x)
-    b = cos(x)
-    print('Cos(%f) ngitung sendiri: %f\n' % (x,a))
-    print('Cos(%f) dari math module: %f\n' % (x,a))
-    print('Selisih: %f\n' % abs(a-b))
+    if len(argv) >= 3:
+        exit(1)
+    if len(argv) >= 1:
+        try:
+            x = float(argv[1])
+        except ValueError:
+            exit(1)
+
+    def ngetest(fungsi, fungsi_math):
+        a = fungsi(x)
+        b = fungsi_math(x)
+        print('%s(%f) = %f' % (fungsi.__name__, x, a))
+        print('%s(%f) = %f' % (fungsi_math.__name__, x, b))
+        print('Selisih = %f\n' % abs(a-b))
+
+    print("""
+    ============= Testing ==============
+     Dibandingkan fungsi dari module math
+          """)
+    print('1. Fungsi Sinus')
+    ngetest(sin_ml, sin)
+    print('2. Fungsi Cosinus')
+    ngetest(cos_ml, cos)
