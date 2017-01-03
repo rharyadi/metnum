@@ -4,8 +4,9 @@
 
 class maclaurin(object):
 
-    def __init__(self, eps=0.0000000001):
-        self.eps = eps
+    # eps = nilai toleransi suku
+    def __init__(self):
+        self.eps = 0.00000001
     def faktorial(self,n):
         if n==0:
             return 1
@@ -30,36 +31,49 @@ def cos_ml(x):
     ml = maclaurin()
     jumlah = 0
     suku_cos = 1
-    n = 1
+    n = 0
     while abs(suku_cos)>ml.eps:
         jumlah += suku_cos
         n += 1
-        suku_cos = (-1**(n+1))*ml.suku(x,2*n)
+        suku_cos = (-1**n)*ml.suku(x,2*n)
+    return jumlah
+
+def exp_ml(x):
+    ml = maclaurin()
+    jumlah = 0
+    suku_exp = 1
+    n = 0
+    while abs(suku_exp)>ml.eps:
+        jumlah += suku_exp
+        n += 1
+        suku_exp = ml.suku(x,n)
     return jumlah
 
 if __name__=='__main__':
 
-    from math import sin, cos
+    from math import sin, cos, exp, log
     from sys import argv, exit
     
     x = 0.5
     if len(argv) >= 3:
         exit(1)
-    if len(argv) >= 1:
+    if len(argv) >= 2:
         try:
             x = float(argv[1])
         except ValueError:
             exit(1)
 
-    def ngetest(fungsi, fungsi_math):
-        a = fungsi(x)
-        b = fungsi_math(x)
-        print('%s(%f) = %f' % (fungsi.__name__, x, a))
-        print('%s(%f) = %f' % (fungsi_math.__name__, x, b))
+    def ngetest(fungsi, fungsi_math, argumen):
+        a = fungsi(argumen)
+        b = fungsi_math(argumen)
+        print('%s(%f) = %f' % (fungsi.__name__, argumen, a))
+        print('%s(%f) = %f' % (fungsi_math.__name__, argumen, b))
         print('Selisih = %f\n' % abs(a-b))
 
     print('============= Testing ==============')
     print('1. Fungsi Sinus')
-    ngetest(sin_ml, sin)
+    ngetest(sin_ml, sin, x)
     print('2. Fungsi Cosinus')
-    ngetest(cos_ml, cos)
+    ngetest(cos_ml, cos, x)
+    print('3. Fungsi Exp(x)')
+    ngetest(exp_ml, exp, x)
